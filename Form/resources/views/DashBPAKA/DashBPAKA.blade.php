@@ -92,6 +92,16 @@
                   </div>
                 </a>
               </div>
+
+               <!-- Pembimbing/Perwalian Mahasiswa Box -->
+               <div class="col-6 col-md-6 mb-3">
+                <a href="{{ route('pembimbing.index') }}" class="info-box bg-secondary">
+                  <span class="info-box-icon"><i class="fas fa-user-graduate"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text text-white">Perwalian Mahasiswa</span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>

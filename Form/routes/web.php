@@ -18,7 +18,7 @@ use App\Http\Controllers\getIrsController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\lihatIrsController;
 use App\Http\Controllers\PakaController;
-
+use App\Http\Controllers\PembimbingController;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogin');
@@ -83,7 +83,8 @@ Route::middleware(['auth'])->group(function(){
     Route::patch('/reject/{id}', [PakaController::class, 'rejectIrs'])->middleware('userAkses:pakademik')->name('irs.reject');
     Route::get('/sakura/pakmdb/rekappaka', [DashboardPAKAController::class, 'rekappaka'])->middleware('userAkses:pakademik')->name('rekappaka');
 
-
+    Route::get('/pembimbing/mahasiswa-perwalian', [PembimbingController::class, 'index'])->middleware('userAkses:pakademik')->name('pembimbing.index');
+    Route::get('/pembimbing/mahasiswa-perwalian/{nim}/cetak', [PembimbingController::class, 'cetakHistoriIRS'])->middleware('userAkses:pakademik')->name('pembimbing.cetak');
 
 });
 

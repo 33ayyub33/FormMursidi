@@ -1,0 +1,75 @@
+/* Mengubah background kotak status */
+.info-box {
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.info-box-icon {
+    font-size: 40px;
+}
+
+.info-box-content h5 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.info-box-content h3 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Membuat tombol cetak IRS lebih menarik */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Styling untuk list mahasiswa */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.list-group-item a {
+    margin-left: 10px;
+}
+
+/* Styling untuk card header */
+.card-header {
+    background-color: #f4f6f9;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+}
+
+.card-body {
+    background-color: #fff;
+    padding: 20px;
+}
+
+/* Menyesuaikan tampilan untuk responsive design */
+@media (max-width: 768px) {
+    .info-box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-box-icon {
+        margin-bottom: 10px;
+    }
+}
