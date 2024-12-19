@@ -140,7 +140,6 @@ function loadSemesterData(semester) {
 
     const url = `/getIrsBySemester/${semester}`;
 
-
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -172,17 +171,23 @@ function loadSemesterData(semester) {
         htmlContent += `</tbody></table>`;
 
         document.getElementById('semester-data').innerHTML = htmlContent;
+
+        // Tampilkan tombol Print IRS setelah data ditampilkan
+        const printButton = document.getElementById('print-irs-button');
+        printButton.style.display = 'block';
+
+        // Fungsi untuk print IRS
+        printButton.onclick = function () {
+          window.location.href = `/irs/history/pdf/${semester}`; // Route untuk mengunduh PDF
+        };
       })
       .catch(error => {
         console.error('Terjadi kesalahan:', error);
         document.getElementById('semester-data').innerHTML = '<p>Terjadi kesalahan saat mengambil data.</p>';
       });
   }
-</script>
 
-
-<script>
-document.getElementById("show-irs-button").addEventListener("click", function () {
+  document.getElementById("show-irs-button").addEventListener("click", function () {
     const semester = document.getElementById("semester-select").value;
 
     if (!semester) {
@@ -213,6 +218,7 @@ document.getElementById("show-irs-button").addEventListener("click", function ()
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
+                            <th>Kode Matakuliah</th>
                             <th>Mata Kuliah</th>
                             <th>Semester</th>
                             <th>Tahun Akademik</th>
@@ -227,9 +233,10 @@ document.getElementById("show-irs-button").addEventListener("click", function ()
                 // Memastikan akses data yang aman
                 const mataKuliah = item.kelas && item.kelas.mata_kuliah ? item.kelas.mata_kuliah.nama_mk : 'Mata Kuliah Tidak Ditemukan';
                 const ruang = item.ruang_kuliah_kode_ruang || 'Ruang Tidak Ditemukan';  // Menggunakan fallback untuk ruang
-
+                
                 html += `
                     <tr>
+                        <td>${item.kode_mk}</td>
                         <td>${item.nama_mk}</td>
                         <td>${item.semester}</td>
                         <td>${item.tahun_akademik}</td>
@@ -245,13 +252,23 @@ document.getElementById("show-irs-button").addEventListener("click", function ()
             `;
 
             container.innerHTML = html;
+
+            // Menampilkan tombol Print IRS setelah data ditampilkan
+            const printButton = document.getElementById('print-irs-button');
+            printButton.style.display = 'block';
+
+            // Fungsi untuk print IRS
+            printButton.onclick = function () {
+              window.location.href = `/irs/history/pdf/${semester}`; // Route untuk mengunduh PDF
+            };
         })
         .catch((error) => {
             console.error("Error fetching IRS data:", error);
             document.getElementById("semester-data").innerHTML = "<div class='alert alert-danger'>Terjadi kesalahan saat memuat data IRS.</div>";
         });
-});
+  });
 </script>
+
 
 
 

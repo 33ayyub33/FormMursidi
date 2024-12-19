@@ -6,6 +6,7 @@ use App\Models\Irs;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
 
 class getIrsController extends Controller
@@ -19,7 +20,6 @@ class getIrsController extends Controller
     public function getIrsBySemester($semester)
     {
         $user = Auth::user();
-        // Debugging auth
         if (!$user) {
             return response()->json(['error' => 'User tidak terautentikasi'], 401);
         }
@@ -57,18 +57,46 @@ class getIrsController extends Controller
                 'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : 'Tidak Ada',
                 'nama_mk' => $mataKuliah ? $mataKuliah->nama_mk : 'Tidak Ada',
             ]);
-            Log::info('IRS',[
-                'Ruang' => $item ? $item->ruang_kuliah_kode_ruang : 'Tidak ada',
-            ]);
+            Log::info('IRS',[ 'Ruang' => $item ? $item->ruang_kuliah_kode_ruang : 'Tidak ada']);
 
             return [
-                'nama_mk' => $mataKuliah ? $mataKuliah->nama_mk : 'Mata Kuliah Tidak Ditemukan', // Pengecekan null
-                'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : 'Kode MK Tidak Ditemukan', // Pengecekan null
+                'nama_mk' => $mataKuliah ? $mataKuliah->nama_mk : 'Mata Kuliah Tidak Ditemukan', 
+                'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : 'Kode MK Tidak Ditemukan', 
                 'semester' => $item->semester,
                 'tahun_akademik' => $item->tahun_akademik,
                 'ruang' => $item->ruang_kuliah_kode_ruang,
                 'total_sks' => $item->total_sks,
+                
             ];
         }));
+    }
+
+    /**
+     * Export Histori IRS mahasiswa dalam format PDF
+     *
+     * @param  string  $nim
+     * @return \Illuminate\Http\Response
+     */
+    public function exportIrsHistoryPDF($nim)
+    {
+        // Ambil data IRS berdasarkan NIM mahasiswa yang sudah disetujui
+        $irs = Irs::where('mahasiswa_nim', $nim)
+        ->orderBy('semester', 'asc')
+        ->get();
+        
+        // ->where('is_verified', '0')
+
+            // $irs = Irs::with(['kelas', 'kelas.mataKuliah'])
+            // ->where('semester', $semester)
+            // ->where('mahasiswa_nim', $nim)
+            // ->get();
+
+        if ($irs->isEmpty()) {
+            return response()->json(['error' => 'Tidak ada data IRS yang disetujui untuk mahasiswa ini'], 404);
+        }
+
+        // Generate PDF
+        $pdf = Pdf::loadView('irs.history_pdf', compact('irs'));
+        return $pdf->download('Histori_IRS_' . $nim . '.pdf');
     }
 }

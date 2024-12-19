@@ -284,11 +284,15 @@
           <div id="semester-data" class="mt-3">
             <!-- Data akan dimuat di sini -->
           </div>
+          
+          <!-- Tombol Print IRS (akan muncul setelah data IRS dimuat) -->
+          <button id="print-irs-button" class="btn btn-success mt-3" style="display: none;">Print IRS</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 
 <!-- End Tab IRS -->
